@@ -42,6 +42,32 @@
       line-height: 1.2;
     }
 
+    .app-intro {
+      width: min(210mm, calc(100% - 24px));
+      margin: 12px auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: #222;
+      font-size: 12px;
+    }
+
+    .app-intro h1 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .app-intro p {
+      margin: 0;
+      font-size: 13px;
+      color: #555;
+      text-align: center;
+    }
+
     .toolbar {
       display: flex;
       justify-content: center;
@@ -65,21 +91,45 @@
       color: #111;
     }
 
+    .stage-add-tools {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 2mm 0 1mm;
+    }
+
+    .stage-add-tools button {
+      border: 1px solid #222;
+      background: #fff;
+      color: #111;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .page {
       width: 210mm;
-      height: 297mm;
-      margin: 0 auto 16px;
+      min-height: 0;
+      margin: 0 auto;
       padding: 5mm 10mm 7mm;
       background: #fff;
-      overflow: hidden;
+      overflow: visible;
       display: flex;
       flex-direction: column;
     }
 
+    .page + .page {
+      padding-top: 0;
+    }
+
     .top {
       display: grid;
-      grid-template-columns: 42mm 1fr 50mm;
-      gap: 6mm;
+      grid-template-columns: 42mm 1fr 38mm;
+      column-gap: 7mm;
+      row-gap: 2mm;
       align-items: end;
       margin-bottom: 2mm;
       font-weight: 700;
@@ -99,6 +149,15 @@
 
     .date-field input[aria-label="日期"] {
       width: 29mm;
+    }
+
+    .top input[aria-label="聯絡人"],
+    .top input[aria-label="出場順序"] {
+      min-width: 0;
+    }
+
+    .contact-method-field {
+      grid-column: 2 / 4;
     }
 
     .calendar-button {
@@ -241,8 +300,33 @@
       cursor: not-allowed;
     }
 
+    .stage-tools {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .stage-tool {
+      border: 1px solid #fff;
+      background: #fff;
+      color: #111;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 10px;
+      line-height: 1.3;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .stage-tool:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
     .stage-box {
-      height: 58mm;
+      height: 94mm;
       border: 1.4px solid #111;
       border-top: 0;
       margin-bottom: 1mm;
@@ -290,6 +374,9 @@
     }
 
     .stage-item.text .stage-body,
+    .stage-item.performer .stage-body,
+    .stage-item.speaker .stage-body,
+    .stage-item.power .stage-body,
     .stage-item.di .stage-body {
       display: grid;
       place-items: center;
@@ -370,10 +457,10 @@
     }
 
     .stage-item.monitor {
-      width: 8mm;
-      height: 8mm;
-      min-width: 8mm;
-      min-height: 8mm;
+      width: 11mm;
+      height: 4.7mm;
+      min-width: 11mm;
+      min-height: 4.7mm;
       padding: 0;
       border: 0;
       border-radius: 0;
@@ -401,17 +488,51 @@
       padding: 0;
     }
 
+    .stage-item.speaker,
+    .stage-item.power,
     .stage-item.di {
       border-radius: 1mm;
       font-size: 10px;
     }
 
+    .stage-item.speaker .stage-body {
+      border-radius: 0;
+    }
+
+    .stage-item.speaker .stage-body,
+    .stage-item.power .stage-body,
     .stage-item.di .stage-body {
       min-width: 11mm;
       min-height: 6mm;
       padding: 1mm 1.6mm;
       display: grid;
       place-items: center;
+    }
+
+    .stage-item.performer {
+      width: 14mm;
+      height: 14mm;
+      min-width: 14mm;
+      min-height: 14mm;
+    }
+
+    .stage-item.performer .stage-body {
+      width: 14mm;
+      height: 14mm;
+      min-width: 14mm;
+      min-height: 14mm;
+      padding: 1mm;
+      border-radius: 50%;
+      font-size: 12px;
+      line-height: 1.1;
+      overflow: hidden;
+    }
+
+    .stage-item.performer .stage-label {
+      min-width: 0;
+      min-height: 0;
+      overflow-wrap: anywhere;
+      cursor: text;
     }
 
     .stage-icon {
@@ -427,6 +548,13 @@
       border-top: 1px solid #111;
       margin-bottom: 3mm;
       padding-top: 2px;
+    }
+
+    .stage-rear {
+      text-align: center;
+      font-weight: 700;
+      border-bottom: 1px solid #111;
+      padding-bottom: 2px;
     }
 
     table {
@@ -460,6 +588,12 @@
       padding: 2px 4px;
       text-align: center;
       font-size: 11px;
+    }
+
+    td input::placeholder,
+    td textarea::placeholder {
+      font-size: 10px;
+      line-height: 1.05;
     }
 
     select {
@@ -560,7 +694,7 @@
     }
 
     .song-light {
-      width: 36mm;
+      width: 42mm;
     }
 
     .song-sound {
@@ -568,27 +702,30 @@
     }
 
     .song-note {
-      width: auto;
+      width: 40mm;
     }
 
     .performer {
-      width: 38mm;
+      width: 26mm;
     }
 
     .output {
-      width: 36mm;
-    }
-
-    .bring {
-      width: 16mm;
-      text-align: center;
+      width: 32mm;
     }
 
     .gear {
-      width: 45mm;
+      width: 36mm;
     }
 
-    .monitor {
+    .monitor-method {
+      width: 26mm;
+    }
+
+    .monitor-content {
+      width: 36mm;
+    }
+
+    .performer-note {
       width: auto;
     }
 
@@ -749,7 +886,7 @@
     }
 
     .remarks textarea {
-      height: 100%;
+      height: 24mm;
       min-height: 8mm;
       border: 1px solid #111;
       border-top: 0;
@@ -770,6 +907,38 @@
       flex: 0 0 auto;
     }
 
+    .print-continuation {
+      display: none;
+    }
+
+    body.printing-layout.print-single .stage-box {
+      height: 88mm;
+    }
+
+    body.printing-layout.print-single .foh {
+      margin-bottom: 1.5mm;
+    }
+
+    body.printing-layout.print-single .remarks textarea {
+      height: 20mm;
+    }
+
+    body.printing-layout select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent !important;
+      color: #000;
+      padding-right: 4px;
+    }
+
+    .print-line-value {
+      display: inline-block;
+      min-width: 30mm;
+      border-bottom: 1px solid #333;
+      padding: 0 3px;
+      font-weight: 600;
+    }
+
     @media print {
       html,
       body {
@@ -779,6 +948,7 @@
         overflow: hidden;
       }
 
+      .app-intro,
       .toolbar {
         display: none;
       }
@@ -790,6 +960,8 @@
       }
 
       .section-add,
+      .stage-tools,
+      .stage-add-tools,
       .row-actions,
       .combo-toggle,
       .combo-menu,
@@ -802,10 +974,62 @@
 
       .page {
         margin: 0;
-        height: 292mm;
+        height: auto;
         padding-bottom: 4mm;
         box-shadow: none;
+        overflow: visible;
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      .page + .page {
+        padding-top: 0;
+      }
+
+      .remarks textarea {
+        height: 24mm;
+      }
+
+      body.print-single .stage-box {
+        height: 88mm;
+      }
+
+      body.print-single .foh {
+        margin-bottom: 1.5mm;
+      }
+
+      body.print-single .remarks textarea {
+        height: 20mm !important;
+      }
+
+      body.print-two .page:first-of-type {
+        height: 297mm;
         overflow: hidden;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      body.print-two .page:nth-of-type(2) {
+        height: 297mm;
+        overflow: hidden;
+        padding-top: 5mm;
+      }
+
+      body.print-two .remarks {
+        min-height: 0;
+      }
+
+      body.print-two .remarks textarea {
+        flex: 1 1 auto;
+        height: auto !important;
+        min-height: 0;
+      }
+
+      body.print-two .print-continuation {
+        display: grid;
+      }
+
+      .page:last-of-type {
         page-break-after: auto;
         break-after: auto;
       }
@@ -816,6 +1040,16 @@
         color: #000;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+      }
+
+      select {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        background: transparent !important;
+        background-image: none !important;
+        border: 0 !important;
+        color: #000 !important;
+        padding-right: 4px !important;
       }
 
       input:disabled,
@@ -832,29 +1066,78 @@
   </style>
 </head>
 <body>
+  <header class="app-intro">
+    <h1>Stage Rider 舞台需求表</h1>
+    <p>填寫舞台配置、演出者需求與曲目需求。建議使用 Chrome 或 Edge 以獲得較佳的列印體驗。</p>
+  </header>
+
   <div class="toolbar">
     <button type="button" onclick="printStageForm()">列印／另存 PDF</button>
-    <button class="tool-button" type="button" data-add-stage="text">＋文字</button>
-    <button class="tool-button" type="button" data-add-stage="mic">＋麥克風</button>
-    <button class="tool-button" type="button" data-add-stage="monitor">＋監聽</button>
-    <button class="tool-button" type="button" data-add-stage="di">＋DI</button>
-    <button class="tool-button" type="button" id="exportStagePreset">匯出舞台配置</button>
-    <button class="tool-button" type="button" id="importStagePreset">匯入舞台配置</button>
+    <button class="tool-button" type="button" id="exportStagePreset">匯出整張表</button>
+    <button class="tool-button" type="button" id="importStagePreset">匯入整張表</button>
+    <button class="tool-button" type="button" id="clearFullForm">清除整張表</button>
     <input id="stagePresetFile" type="file" accept="application/json,.json" hidden>
   </div>
 
   <main class="page">
     <header class="top">
       <div class="line-field date-field"><span>日期：</span><input type="text" aria-label="日期" inputmode="numeric"><button class="calendar-button" type="button" aria-label="開啟日期選單">▾</button><div class="calendar-popover" aria-label="日期選單"></div></div>
-      <label class="line-field">團體名稱：<input type="text" aria-label="團體名稱"></label>
-      <label class="line-field">演出順序：<input type="text" aria-label="演出順序"></label>
+      <label class="line-field">表演者：<input type="text" aria-label="表演者"></label>
+      <label class="line-field">出場順序：<input type="text" aria-label="出場順序"></label>
+      <label class="line-field">聯絡人：<input type="text" aria-label="聯絡人"></label>
+      <label class="line-field contact-method-field">聯絡方式：<input type="text" aria-label="聯絡方式"></label>
     </header>
 
     <section>
-      <div class="title-bar">舞台配置圖</div>
+      <div class="title-bar">
+        <span>舞台配置圖</span>
+        <span class="stage-tools" aria-label="舞台配置對齊工具">
+          <button class="stage-tool" type="button" id="undoStageLayout" disabled>復原</button>
+          <button class="stage-tool" type="button" data-stage-layout="align-x">水平對齊</button>
+          <button class="stage-tool" type="button" data-stage-layout="align-y">垂直對齊</button>
+          <button class="stage-tool" type="button" data-stage-layout="distribute-x">左右平均</button>
+          <button class="stage-tool" type="button" data-stage-layout="distribute-y">上下平均</button>
+        </span>
+      </div>
+      <div class="stage-rear">舞台後方</div>
       <div class="stage-box" aria-label="舞台配置圖空白區"></div>
-      <div class="foh">觀眾席／FOH</div>
+      <div class="foh">觀眾席 / FOH</div>
+      <div class="stage-add-tools" aria-label="舞台物件新增工具">
+        <button type="button" data-add-stage="text">＋文字（器材）</button>
+        <button type="button" data-add-stage="performer">＋演出者</button>
+        <button type="button" data-add-stage="mic">＋麥克風</button>
+        <button type="button" data-add-stage="monitor">＋監聽</button>
+        <button type="button" data-add-stage="speaker">＋音箱</button>
+        <button type="button" data-add-stage="power">＋電源</button>
+      </div>
     </section>
+
+    <section class="section">
+      <div class="title-bar"><span>演出者需求</span><button class="section-add" type="button" id="addPerformerRow">＋演出者</button></div>
+      <table aria-label="演出者需求表">
+        <thead>
+          <tr>
+            <th class="performer">演出者／樂器</th>
+            <th class="output">輸出方法</th>
+            <th class="gear">自帶設備</th>
+            <th class="monitor-method">監聽方式</th>
+            <th class="monitor-content">監聽內容</th>
+            <th class="performer-note">備註</th>
+          </tr>
+        </thead>
+        <tbody id="performerRows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <main class="page">
+    <header class="top print-continuation" aria-hidden="true">
+      <div class="line-field"><span>日期：</span><span class="print-line-value" data-print-date></span></div>
+      <div class="line-field"><span>表演者：</span><span class="print-line-value" data-print-band></span></div>
+      <div class="line-field"><span>出場順序：</span><span class="print-line-value" data-print-order></span></div>
+      <div class="line-field"><span>聯絡人：</span><span class="print-line-value" data-print-contact></span></div>
+      <div class="line-field contact-method-field"><span>聯絡方式：</span><span class="print-line-value" data-print-contact-method></span></div>
+    </header>
 
     <section class="section">
       <div class="title-bar"><span>曲目需求</span><button class="section-add" type="button" id="addSongRow">＋曲目</button></div>
@@ -863,7 +1146,7 @@
           <tr>
             <th class="song-no">曲順</th>
             <th class="song-title">曲名</th>
-            <th class="song-time">時間 分:秒</th>
+            <th class="song-time">長度</th>
             <th class="song-light">燈光需求</th>
             <th class="song-sound">音響需求</th>
             <th class="song-note">備註</th>
@@ -880,22 +1163,6 @@
       </table>
     </section>
 
-    <section class="section">
-      <div class="title-bar"><span>演出者需求</span><button class="section-add" type="button" id="addPerformerRow">＋演出者</button></div>
-      <table aria-label="演出者需求表">
-        <thead>
-          <tr>
-            <th class="performer">演出者／樂器</th>
-            <th class="output">輸出方法</th>
-            <th class="bring">自帶</th>
-            <th class="gear">自帶設備</th>
-            <th class="monitor">監聽需求</th>
-          </tr>
-        </thead>
-        <tbody id="performerRows"></tbody>
-      </table>
-    </section>
-
     <section class="remarks">
       <div class="title-bar">備註</div>
       <textarea aria-label="自由備註"></textarea>
@@ -904,11 +1171,23 @@
 
   <script>
     const outputOptions = ["", "Line in (mono)", "Line in (stereo)", "Mic 收音"];
+    const monitorMethodOptions = ["", "無", "舞台監聽", "耳機/IEM", "自備監聽", "不確定"];
 
-    function textCell(label) {
+    function setOneShotPlaceholder(field, placeholder) {
+      field.placeholder = placeholder;
+      field.addEventListener("focus", () => {
+        field.placeholder = "";
+      });
+      field.addEventListener("blur", () => {
+        if (!field.value.trim()) field.placeholder = placeholder;
+      });
+    }
+
+    function textCell(label, placeholder = "") {
       const td = document.createElement("td");
       const textarea = document.createElement("textarea");
       textarea.setAttribute("aria-label", label);
+      if (placeholder) setOneShotPlaceholder(textarea, placeholder);
       textarea.addEventListener("input", () => {
         autoGrow(textarea);
         resizeRemarks();
@@ -917,10 +1196,11 @@
       return td;
     }
 
-    function textareaCell(label) {
+    function textareaCell(label, placeholder = "") {
       const td = document.createElement("td");
       const textarea = document.createElement("textarea");
       textarea.setAttribute("aria-label", label);
+      if (placeholder) setOneShotPlaceholder(textarea, placeholder);
       textarea.addEventListener("input", () => {
         autoGrow(textarea);
         resizeRemarks();
@@ -947,7 +1227,7 @@
       return td;
     }
 
-    function performerNameCell(label) {
+    function performerNameCell(label, onInput) {
       const td = document.createElement("td");
       const wrapper = document.createElement("div");
       const textarea = document.createElement("textarea");
@@ -955,6 +1235,7 @@
       textarea.setAttribute("aria-label", label);
       textarea.addEventListener("input", () => {
         autoGrow(textarea);
+        onInput?.(textarea);
         resizeRemarks();
       });
       wrapper.append(textarea);
@@ -1012,6 +1293,21 @@
       return { td, checkbox };
     }
 
+    function nativeSelectCell(label, options) {
+      const td = document.createElement("td");
+      const select = document.createElement("select");
+      select.setAttribute("aria-label", label);
+      options.forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+      select.addEventListener("change", resizeRemarks);
+      td.appendChild(select);
+      return td;
+    }
+
     function selectCell(label, options) {
       const td = document.createElement("td");
       const wrapper = document.createElement("div");
@@ -1025,7 +1321,7 @@
       toggle.type = "button";
       toggle.className = "combo-toggle";
       toggle.textContent = "▾";
-      toggle.setAttribute("aria-label", "開啟輸出方法選單");
+      toggle.setAttribute("aria-label", "開啟選單");
       menu.className = "combo-menu";
       options.filter(Boolean).forEach((value) => {
         const option = document.createElement("button");
@@ -1093,20 +1389,65 @@
     }
 
     function resizeRemarks() {
-      const page = document.querySelector(".page");
       const remarks = document.querySelector(".remarks");
+      const page = remarks.closest(".page");
       const textarea = remarks.querySelector("textarea");
+      if (document.body.classList.contains("print-single")) {
+        textarea.style.height = "20mm";
+        return;
+      }
+      if (!document.body.classList.contains("print-two")) {
+        textarea.style.height = "24mm";
+        return;
+      }
       textarea.style.height = "8mm";
-      requestAnimationFrame(() => {
-        const pageBox = page.getBoundingClientRect();
-        const textareaBox = textarea.getBoundingClientRect();
-        const available = Math.max(24, pageBox.bottom - textareaBox.top - 2);
-        textarea.style.height = `${available}px`;
-      });
+      const pageBox = page.getBoundingClientRect();
+      const textareaBox = textarea.getBoundingClientRect();
+      const available = Math.max(24, pageBox.bottom - textareaBox.top - 2);
+      textarea.style.height = `${available}px`;
+    }
+
+    function setContinuationPrintFields() {
+      document.querySelector("[data-print-date]").textContent = document.querySelector('input[aria-label="日期"]').value.trim();
+      document.querySelector("[data-print-band]").textContent = document.querySelector('input[aria-label="表演者"]').value.trim();
+      document.querySelector("[data-print-contact]").textContent = document.querySelector('input[aria-label="聯絡人"]').value.trim();
+      document.querySelector("[data-print-contact-method]").textContent = document.querySelector('input[aria-label="聯絡方式"]').value.trim();
+      document.querySelector("[data-print-order]").textContent = document.querySelector('input[aria-label="出場順序"]').value.trim();
+    }
+
+    function a4HeightPx() {
+      const page = document.querySelector(".page");
+      return page.getBoundingClientRect().width / 210 * 297;
+    }
+
+    function preparePrintLayout() {
+      const pages = [...document.querySelectorAll(".page")];
+      document.body.classList.remove("print-single", "print-two");
+      document.body.classList.add("printing-layout", "print-single");
+      setContinuationPrintFields();
+      resizeRemarks();
+
+      const firstTop = pages[0].getBoundingClientRect().top;
+      const lastBottom = pages[pages.length - 1].getBoundingClientRect().bottom;
+      const fitsOnePage = lastBottom - firstTop <= a4HeightPx() - 4;
+      if (!fitsOnePage) {
+        document.body.classList.remove("print-single");
+        document.body.classList.add("print-two");
+      }
+      resizeRemarks();
+    }
+
+    function resetPrintLayout() {
+      document.body.classList.remove("printing-layout", "print-single", "print-two");
+      resizeRemarks();
     }
 
     const stage = document.querySelector(".stage-box");
     const stageStorageKey = "stage-form-items-v1";
+    const undoStageLayoutButton = document.getElementById("undoStageLayout");
+    const stageUndoStack = [];
+    const maxStageUndoSteps = 60;
+    let isRestoringStage = false;
     let selectedStageItem = null;
     let selectedStageItems = [];
     let stageDrag = null;
@@ -1118,8 +1459,11 @@
 
     const stageItemTypes = {
       text: { className: "text", label: "文字" },
+      performer: { className: "performer", label: "演出者" },
       mic: { className: "mic", label: "" },
       monitor: { className: "monitor", label: "" },
+      speaker: { className: "speaker", label: "音箱" },
+      power: { className: "power", label: "POWER" },
       di: { className: "di", label: "DI" },
     };
 
@@ -1131,10 +1475,52 @@
           <circle cx="14" cy="21" r="5" fill="#fff" stroke="#111" stroke-width="2"/>
         </svg>`,
       monitor: `
-        <svg class="stage-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <path d="M24 6 L42 40 H6 Z" fill="#fff" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+        <svg class="stage-icon" viewBox="0 0 48 32" aria-hidden="true">
+          <path d="M2 5 H46 L36 27 H12 Z" fill="#fff" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
         </svg>`,
     };
+
+    function updateStageUndoButton() {
+      undoStageLayoutButton.disabled = stageUndoStack.length === 0;
+    }
+
+    function stageSnapshot() {
+      return readStageItems();
+    }
+
+    function pushStageUndo(snapshot = stageSnapshot()) {
+      if (isRestoringStage) return;
+      const serialized = JSON.stringify(snapshot);
+      if (serialized === JSON.stringify(stageSnapshot())) return;
+      if (stageUndoStack[stageUndoStack.length - 1] === serialized) return;
+      stageUndoStack.push(serialized);
+      if (stageUndoStack.length > maxStageUndoSteps) stageUndoStack.shift();
+      updateStageUndoButton();
+    }
+
+    function pushCurrentStageUndo() {
+      if (isRestoringStage) return;
+      const serialized = JSON.stringify(stageSnapshot());
+      if (stageUndoStack[stageUndoStack.length - 1] === serialized) return;
+      stageUndoStack.push(serialized);
+      if (stageUndoStack.length > maxStageUndoSteps) stageUndoStack.shift();
+      updateStageUndoButton();
+    }
+
+    function clearStageUndo() {
+      stageUndoStack.length = 0;
+      updateStageUndoButton();
+    }
+
+    function undoStageLayout() {
+      const snapshot = stageUndoStack.pop();
+      if (!snapshot) return;
+      isRestoringStage = true;
+      replaceStageItems(JSON.parse(snapshot));
+      isRestoringStage = false;
+      updateStageUndoButton();
+      saveStageItems();
+    }
 
     function addStageItem(type, item = {}) {
       const config = stageItemTypes[type] || stageItemTypes.text;
@@ -1149,6 +1535,7 @@
       element.dataset.x = item.x ?? defaultX;
       element.dataset.y = item.y ?? defaultY;
       element.dataset.angle = item.angle ?? 0;
+      if (item.autoPerformerId) element.dataset.autoPerformerId = item.autoPerformerId;
       if (stageIcons[type]) {
         body.innerHTML = stageIcons[type];
       } else {
@@ -1157,6 +1544,14 @@
         label.contentEditable = "true";
         label.spellcheck = false;
         label.textContent = item.label ?? config.label;
+        label.addEventListener("beforeinput", () => {
+          if (label.dataset.undoStarted) return;
+          pushCurrentStageUndo();
+          label.dataset.undoStarted = "true";
+        });
+        label.addEventListener("blur", () => {
+          delete label.dataset.undoStarted;
+        });
         body.appendChild(label);
       }
       element.appendChild(body);
@@ -1183,6 +1578,7 @@
       deleteButton.addEventListener("pointerdown", (event) => event.stopPropagation());
       deleteButton.addEventListener("click", (event) => {
         event.stopPropagation();
+        pushCurrentStageUndo();
         const itemsToRemove = selectedStageItems.includes(element) ? selectedStageItems : [element];
         itemsToRemove.forEach((item) => item.remove());
         clearStageSelection();
@@ -1194,6 +1590,14 @@
       selectStageItem(element);
       saveStageItems();
       return element;
+    }
+
+    function clampStageX(value) {
+      return Math.min(Math.max(value, 2), 98);
+    }
+
+    function clampStageY(value) {
+      return Math.min(Math.max(value, 4), 96);
     }
 
     function placeStageItem(element) {
@@ -1229,6 +1633,7 @@
       if (event.target.closest(".stage-label") || event.target.closest(".stage-delete")) return;
       if (event.target.closest(".stage-rotate")) return;
       if (!selectedStageItems.includes(target)) selectStageItem(target);
+      pushCurrentStageUndo();
       target.setPointerCapture(event.pointerId);
       stageDrag = {
         target,
@@ -1251,8 +1656,8 @@
       const dx = ((event.clientX - stageDrag.startClientX) / rect.width) * 100;
       const dy = ((event.clientY - stageDrag.startClientY) / rect.height) * 100;
       stageDrag.items.forEach(({ element, x, y }) => {
-        element.dataset.x = String(Math.min(Math.max(x + dx, 2), 98));
-        element.dataset.y = String(Math.min(Math.max(y + dy, 4), 96));
+        element.dataset.x = String(clampStageX(x + dx));
+        element.dataset.y = String(clampStageY(y + dy));
         placeStageItem(element);
       });
     }
@@ -1272,6 +1677,7 @@
       event.stopPropagation();
       const target = event.currentTarget.closest(".stage-item");
       selectStageItem(target);
+      pushCurrentStageUndo();
       event.currentTarget.setPointerCapture(event.pointerId);
       stageRotate = { target, handle: event.currentTarget };
       event.currentTarget.addEventListener("pointermove", moveStageRotate);
@@ -1305,9 +1711,192 @@
         x: Number(element.dataset.x),
         y: Number(element.dataset.y),
         angle: Number(element.dataset.angle || 0),
+        autoPerformerId: element.dataset.autoPerformerId || "",
         label: stageIcons[element.dataset.type] ? "" : element.querySelector(".stage-label")?.textContent ?? "",
       }));
       localStorage.setItem(stageStorageKey, JSON.stringify(items));
+    }
+
+    function updateAutoPerformerStageItem(tr, value) {
+      const label = value.trim();
+      const currentId = tr.dataset.stageItemId;
+      const currentItem = currentId ? stage.querySelector(`.stage-item[data-auto-performer-id="${currentId}"]`) : null;
+      if (!label) {
+        currentItem?.remove();
+        delete tr.dataset.stageItemId;
+        saveStageItems();
+        return;
+      }
+      if (currentItem) {
+        if (currentItem.dataset.type !== "performer") {
+          const replacement = {
+            label,
+            x: Number(currentItem.dataset.x),
+            y: Number(currentItem.dataset.y),
+            angle: Number(currentItem.dataset.angle || 0),
+            autoPerformerId: currentId,
+          };
+          currentItem.remove();
+          addStageItem("performer", replacement);
+          return;
+        }
+        currentItem.querySelector(".stage-label").textContent = label;
+        saveStageItems();
+        return;
+      }
+      const id = tr.dataset.stageItemId || `performer-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      tr.dataset.stageItemId = id;
+      addStageItem("performer", { label, autoPerformerId: id });
+    }
+
+    function removeAutoPerformerStageItem(tr) {
+      const id = tr.dataset.stageItemId;
+      if (!id) return;
+      stage.querySelector(`.stage-item[data-auto-performer-id="${id}"]`)?.remove();
+      delete tr.dataset.stageItemId;
+      saveStageItems();
+    }
+
+    function setFieldValue(field, value, options = {}) {
+      if (!field) return;
+      field.value = value ?? "";
+      if (!options.silent) {
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+        field.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      if (field.tagName === "TEXTAREA") autoGrow(field);
+    }
+
+    function getFieldValue(scope, selector) {
+      return scope.querySelector(selector)?.value ?? "";
+    }
+
+    function setRows(tbody, count, addRow) {
+      while (tbody.children.length > count && tbody.children.length > 1) {
+        tbody.querySelector("tr:last-child .delete-row")?.click();
+      }
+      while (tbody.children.length < count) addRow();
+    }
+
+    function readSongRows() {
+      return [...songRows.children].map((tr) => ({
+        title: getFieldValue(tr, 'textarea[aria-label$="曲名"]'),
+        minutes: getFieldValue(tr, ".time-min"),
+        seconds: getFieldValue(tr, ".time-sec"),
+        light: getFieldValue(tr, 'textarea[aria-label$="燈光需求"]'),
+        sound: getFieldValue(tr, 'textarea[aria-label$="音響需求"]'),
+        note: getFieldValue(tr, 'textarea[aria-label$="備註"]'),
+      }));
+    }
+
+    function readPerformerRows() {
+      return [...performerRows.children].map((tr) => ({
+        stageItemId: tr.dataset.stageItemId || "",
+        name: getFieldValue(tr, 'textarea[aria-label$="演出者／樂器"]'),
+        output: getFieldValue(tr, 'input[aria-label$="輸出方法"]'),
+        gear: getFieldValue(tr, 'textarea[aria-label$="自帶設備"]'),
+        monitorMethod: getFieldValue(tr, 'input[aria-label$="監聽方式"]'),
+        monitorContent: getFieldValue(tr, 'textarea[aria-label$="監聽內容"]'),
+        note: getFieldValue(tr, 'textarea[aria-label$="演出者備註"]'),
+      }));
+    }
+
+    function applySongRows(rows) {
+      const safeRows = Array.isArray(rows) && rows.length ? rows.slice(0, maxSongRows) : [{}];
+      setRows(songRows, safeRows.length, addSongRow);
+      [...songRows.children].forEach((tr, index) => {
+        const row = safeRows[index] || {};
+        setFieldValue(tr.querySelector('textarea[aria-label$="曲名"]'), row.title);
+        setFieldValue(tr.querySelector(".time-min"), row.minutes);
+        setFieldValue(tr.querySelector(".time-sec"), row.seconds);
+        setFieldValue(tr.querySelector('textarea[aria-label$="燈光需求"]'), row.light);
+        setFieldValue(tr.querySelector('textarea[aria-label$="音響需求"]'), row.sound);
+        setFieldValue(tr.querySelector('textarea[aria-label$="備註"]'), row.note);
+      });
+      renumberRows(songRows);
+      updateTotalTime();
+    }
+
+    function applyPerformerRows(rows) {
+      const safeRows = Array.isArray(rows) && rows.length ? rows.slice(0, maxPerformerRows) : [{}];
+      setRows(performerRows, safeRows.length, addPerformerRow);
+      [...performerRows.children].forEach((tr, index) => {
+        const row = safeRows[index] || {};
+        if (row.stageItemId) tr.dataset.stageItemId = row.stageItemId;
+        setFieldValue(tr.querySelector('textarea[aria-label$="演出者／樂器"]'), row.name);
+        setFieldValue(tr.querySelector('input[aria-label$="輸出方法"]'), row.output, { silent: true });
+        setFieldValue(tr.querySelector('textarea[aria-label$="自帶設備"]'), row.gear);
+        setFieldValue(tr.querySelector('input[aria-label$="監聽方式"]'), row.monitorMethod, { silent: true });
+        setFieldValue(tr.querySelector('textarea[aria-label$="監聽內容"]'), row.monitorContent ?? row.monitor);
+        setFieldValue(tr.querySelector('textarea[aria-label$="演出者備註"]'), row.note);
+      });
+      renumberRows(performerRows);
+    }
+
+    function readFormPreset() {
+      return {
+        version: 3,
+        exportedAt: new Date().toISOString(),
+        fields: {
+          date: document.querySelector('input[aria-label="日期"]').value.trim(),
+          bandName: document.querySelector('input[aria-label="表演者"]').value.trim(),
+          contact: document.querySelector('input[aria-label="聯絡人"]').value.trim(),
+          contactMethod: document.querySelector('input[aria-label="聯絡方式"]').value.trim(),
+          order: document.querySelector('input[aria-label="出場順序"]').value.trim(),
+          remarks: document.querySelector('textarea[aria-label="自由備註"]').value,
+        },
+        stageItems: readStageItems(),
+        songs: readSongRows(),
+        performers: readPerformerRows(),
+      };
+    }
+
+    function applyFormPreset(preset) {
+      if (!preset.fields && !preset.songs && !preset.performers && Array.isArray(preset.items)) {
+        replaceStageItems(preset.items);
+        clearStageUndo();
+        return;
+      }
+      const fields = preset.fields || preset;
+      setFieldValue(document.querySelector('input[aria-label="日期"]'), fields.date);
+      setFieldValue(document.querySelector('input[aria-label="表演者"]'), fields.bandName);
+      setFieldValue(document.querySelector('input[aria-label="聯絡人"]'), fields.contact);
+      setFieldValue(document.querySelector('input[aria-label="聯絡方式"]'), fields.contactMethod);
+      setFieldValue(document.querySelector('input[aria-label="出場順序"]'), fields.order);
+      setFieldValue(document.querySelector('textarea[aria-label="自由備註"]'), fields.remarks);
+      performerRows.querySelectorAll("tr").forEach((tr) => delete tr.dataset.stageItemId);
+      replaceStageItems(preset.stageItems || preset.items || []);
+      applyPerformerRows(preset.performers);
+      applySongRows(preset.songs);
+      closeComboMenus();
+      clearStageUndo();
+      updateDocumentTitle();
+      updateRowButtons();
+      resizeRemarks();
+    }
+
+    function resetTableRows(tbody, addRow, count) {
+      [...tbody.children].forEach((tr) => {
+        if (tbody.id === "performerRows") removeAutoPerformerStageItem(tr);
+        tr.remove();
+      });
+      for (let i = 0; i < count; i += 1) addRow();
+      renumberRows(tbody);
+    }
+
+    function clearFullForm() {
+      if (!window.confirm("確定要清除整張表嗎？這個動作無法復原。")) return;
+      document.querySelectorAll(".top input").forEach((input) => setFieldValue(input, ""));
+      setFieldValue(document.querySelector('textarea[aria-label="自由備註"]'), "");
+      replaceStageItems([]);
+      resetTableRows(songRows, addSongRow, 5);
+      resetTableRows(performerRows, addPerformerRow, 5);
+      localStorage.removeItem(stageStorageKey);
+      clearStageUndo();
+      updateTotalTime();
+      updateDocumentTitle();
+      updateRowButtons();
+      resizeRemarks();
     }
 
     function readStageItems() {
@@ -1316,13 +1905,14 @@
         x: Number(element.dataset.x),
         y: Number(element.dataset.y),
         angle: Number(element.dataset.angle || 0),
+        autoPerformerId: element.dataset.autoPerformerId || "",
         label: stageIcons[element.dataset.type] ? "" : element.querySelector(".stage-label")?.textContent ?? "",
       }));
     }
 
     function replaceStageItems(items) {
       stage.querySelectorAll(".stage-item").forEach((element) => element.remove());
-      items.filter((item) => item.type !== "power").forEach((item) => addStageItem(item.type, item));
+      items.forEach((item) => addStageItem(item.type, item));
       clearStageSelection();
       saveStageItems();
     }
@@ -1331,7 +1921,7 @@
       const raw = localStorage.getItem(stageStorageKey);
       if (!raw) return;
       try {
-        JSON.parse(raw).filter((item) => item.type !== "power").forEach((item) => addStageItem(item.type, item));
+        JSON.parse(raw).forEach((item) => addStageItem(item.type, item));
       } catch {
         localStorage.removeItem(stageStorageKey);
       }
@@ -1339,7 +1929,10 @@
     }
 
     document.querySelectorAll("[data-add-stage]").forEach((button) => {
-      button.addEventListener("click", () => addStageItem(button.dataset.addStage));
+      button.addEventListener("click", () => {
+        pushCurrentStageUndo();
+        addStageItem(button.dataset.addStage);
+      });
     });
 
     function safeFilePart(value, fallback) {
@@ -1365,13 +1958,13 @@
 
     function presetFileName() {
       const date = fileDatePart();
-      const band = safeFilePart(document.querySelector('input[aria-label="團體名稱"]').value, "表演團體");
+      const band = safeFilePart(document.querySelector('input[aria-label="表演者"]').value, "表演者");
       return `${date}_${band}_preset.json`;
     }
 
     function stageRequestFileName() {
       const date = fileDatePart();
-      const band = safeFilePart(document.querySelector('input[aria-label="團體名稱"]').value, "表演團體");
+      const band = safeFilePart(document.querySelector('input[aria-label="表演者"]').value, "表演者");
       return `${date}_${band}_舞台需求`;
     }
 
@@ -1497,15 +2090,20 @@
 
     function printStageForm() {
       updateDocumentTitle();
+      preparePrintLayout();
       window.print();
     }
 
-    document.querySelectorAll('input[aria-label="日期"], input[aria-label="團體名稱"]').forEach((input) => {
+    document.querySelectorAll('input[aria-label="日期"], input[aria-label="表演者"]').forEach((input) => {
       input.addEventListener("input", updateDocumentTitle);
       input.addEventListener("change", updateDocumentTitle);
     });
 
-    window.addEventListener("beforeprint", updateDocumentTitle);
+    window.addEventListener("beforeprint", () => {
+      updateDocumentTitle();
+      preparePrintLayout();
+    });
+    window.addEventListener("afterprint", resetPrintLayout);
     updateDocumentTitle();
 
     function downloadPreset(blob, fileName) {
@@ -1519,20 +2117,14 @@
 
     document.getElementById("exportStagePreset").addEventListener("click", async () => {
       const fileName = presetFileName();
-      const preset = {
-        version: 1,
-        exportedAt: new Date().toISOString(),
-        date: document.querySelector('input[aria-label="日期"]').value.trim(),
-        bandName: document.querySelector('input[aria-label="團體名稱"]').value.trim(),
-        items: readStageItems(),
-      };
+      const preset = readFormPreset();
       const blob = new Blob([JSON.stringify(preset, null, 2)], { type: "application/json" });
       if (window.showSaveFilePicker) {
         try {
           const handle = await window.showSaveFilePicker({
             suggestedName: fileName,
             types: [{
-              description: "舞台配置 Preset",
+              description: "Stage Rider 表單 Preset",
               accept: { "application/json": [".json"] },
             }],
           });
@@ -1556,14 +2148,17 @@
       if (!file) return;
       try {
         const preset = JSON.parse(await file.text());
-        if (!Array.isArray(preset.items)) throw new Error("Invalid preset");
-        replaceStageItems(preset.items);
+        if (!preset || typeof preset !== "object") throw new Error("Invalid preset");
+        applyFormPreset(preset);
       } catch {
-        alert("無法讀取這個舞台配置檔。");
+        alert("無法讀取這個表單設定檔。");
       } finally {
         event.currentTarget.value = "";
+        closeComboMenus();
       }
     });
+
+    document.getElementById("clearFullForm").addEventListener("click", clearFullForm);
 
     document.addEventListener("keydown", (event) => {
       if ((event.key === "Delete" || event.key === "Backspace") && selectedStageItems.length && document.activeElement === document.body) {
@@ -1654,6 +2249,54 @@
       setStageSelection(items);
     }
 
+    function applyStageLayout(action) {
+      const items = [...selectedStageItems];
+      if (items.length < 2) return;
+      if ((action === "distribute-x" || action === "distribute-y") && items.length < 3) return;
+      pushCurrentStageUndo();
+      if (action === "align-x") {
+        const y = items.reduce((sum, item) => sum + Number(item.dataset.y), 0) / items.length;
+        items.forEach((item) => {
+          item.dataset.y = String(clampStageY(y));
+          placeStageItem(item);
+        });
+      }
+      if (action === "align-y") {
+        const x = items.reduce((sum, item) => sum + Number(item.dataset.x), 0) / items.length;
+        items.forEach((item) => {
+          item.dataset.x = String(clampStageX(x));
+          placeStageItem(item);
+        });
+      }
+      if (action === "distribute-x" && items.length >= 3) {
+        const sorted = items.sort((a, b) => Number(a.dataset.x) - Number(b.dataset.x));
+        const first = Number(sorted[0].dataset.x);
+        const last = Number(sorted[sorted.length - 1].dataset.x);
+        const step = (last - first) / (sorted.length - 1);
+        sorted.forEach((item, index) => {
+          item.dataset.x = String(clampStageX(first + step * index));
+          placeStageItem(item);
+        });
+      }
+      if (action === "distribute-y" && items.length >= 3) {
+        const sorted = items.sort((a, b) => Number(a.dataset.y) - Number(b.dataset.y));
+        const first = Number(sorted[0].dataset.y);
+        const last = Number(sorted[sorted.length - 1].dataset.y);
+        const step = (last - first) / (sorted.length - 1);
+        sorted.forEach((item, index) => {
+          item.dataset.y = String(clampStageY(first + step * index));
+          placeStageItem(item);
+        });
+      }
+      saveStageItems();
+    }
+
+    document.querySelectorAll("[data-stage-layout]").forEach((button) => {
+      button.addEventListener("click", () => applyStageLayout(button.dataset.stageLayout));
+    });
+
+    undoStageLayoutButton.addEventListener("click", undoStageLayout);
+
     const songRows = document.getElementById("songRows");
     const performerRows = document.getElementById("performerRows");
     const maxSongRows = 10;
@@ -1683,6 +2326,7 @@
 
     function deleteRow(tr, tbody) {
       if (tbody.children.length <= 1) return;
+      if (tbody.id === "performerRows") removeAutoPerformerStageItem(tr);
       tr.remove();
       renumberRows(tbody);
       updateRowButtons();
@@ -1774,8 +2418,9 @@
       const tr = document.createElement("tr");
       const no = makeRowNumberCell(i);
       const note = textareaCell(`第 ${i} 首備註`);
+      const lightHint = i === 1 ? "例：亮、暗、閃爍、色系、指定時間" : "";
       addRowActions(note, tr, songRows);
-      tr.append(no, textCell(`第 ${i} 首曲名`), timeCell(`第 ${i} 首時間`), textareaCell(`第 ${i} 首燈光需求`), textareaCell(`第 ${i} 首音響需求`), note);
+      tr.append(no, textCell(`第 ${i} 首曲名`), timeCell(`第 ${i} 首時間`), textareaCell(`第 ${i} 首燈光需求`, lightHint), textareaCell(`第 ${i} 首音響需求`), note);
       songRows.appendChild(tr);
       updateRowButtons();
     }
@@ -1786,25 +2431,21 @@
       if (performerRows.children.length >= maxPerformerRows) return;
       const i = performerRows.children.length + 1;
       const tr = document.createElement("tr");
-      const first = performerNameCell(`第 ${i} 位演出者／樂器`);
-      const bring = checkboxCell(`第 ${i} 位是否自帶設備`);
-      const gear = textCell(`第 ${i} 位自帶設備`);
-      const monitor = textareaCell(`第 ${i} 位監聽需求`);
-      const gearInput = gear.querySelector("textarea");
-      addRowActions(monitor, tr, performerRows);
-      gearInput.disabled = true;
-      bring.checkbox.addEventListener("change", () => {
-        gearInput.disabled = !bring.checkbox.checked;
-        if (!bring.checkbox.checked) gearInput.value = "";
-        autoGrow(gearInput);
-        resizeRemarks();
+      const first = performerNameCell(`第 ${i} 位演出者／樂器`, (textarea) => {
+        updateAutoPerformerStageItem(tr, textarea.value);
       });
+      const gear = textCell(`第 ${i} 位自帶設備`, i === 1 ? "例：效果器、筆電、手機" : "");
+      const monitorMethod = selectCell(`第 ${i} 位監聽方式`, monitorMethodOptions);
+      const monitorContent = textareaCell(`第 ${i} 位監聽內容`, i === 1 ? "例：人聲大、伴奏、全部" : "");
+      const note = textareaCell(`第 ${i} 位演出者備註`);
+      addRowActions(note, tr, performerRows);
       tr.append(
         first,
         selectCell(`第 ${i} 位輸出方法`, outputOptions),
-        bring.td,
         gear,
-        monitor
+        monitorMethod,
+        monitorContent,
+        note
       );
       performerRows.appendChild(tr);
       updateRowButtons();
