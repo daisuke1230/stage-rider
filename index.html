@@ -457,9 +457,9 @@
     }
 
     .stage-item.monitor {
-      width: 11mm;
+      width: 13mm;
       height: 4.7mm;
-      min-width: 11mm;
+      min-width: 13mm;
       min-height: 4.7mm;
       padding: 0;
       border: 0;
@@ -507,6 +507,13 @@
       padding: 1mm 1.6mm;
       display: grid;
       place-items: center;
+    }
+
+    .stage-item.power .stage-body {
+      min-width: 9mm;
+      min-height: 5mm;
+      padding: 0.7mm 1.3mm;
+      font-size: 11px;
     }
 
     .stage-item.performer {
@@ -1108,7 +1115,7 @@
         <button type="button" data-add-stage="mic">＋麥克風</button>
         <button type="button" data-add-stage="monitor">＋監聽</button>
         <button type="button" data-add-stage="speaker">＋音箱</button>
-        <button type="button" data-add-stage="power">＋電源</button>
+        <button type="button" data-add-stage="power">＋電力</button>
       </div>
     </section>
 
@@ -1118,7 +1125,7 @@
         <thead>
           <tr>
             <th class="performer">演出者／樂器</th>
-            <th class="output">輸出方法</th>
+            <th class="output">訊號來源</th>
             <th class="gear">自帶設備</th>
             <th class="monitor-method">監聽方式</th>
             <th class="monitor-content">監聽內容</th>
@@ -1170,7 +1177,7 @@
   </main>
 
   <script>
-    const outputOptions = ["", "Line in (mono)", "Line in (stereo)", "Mic 收音"];
+    const outputOptions = ["", "麥克風", "Line in (mono)", "Line in (stereo)", "播放設備", "不確定"];
     const monitorMethodOptions = ["", "無", "舞台監聽", "耳機/IEM", "自備監聽", "不確定"];
 
     function setOneShotPlaceholder(field, placeholder) {
@@ -1463,7 +1470,7 @@
       mic: { className: "mic", label: "" },
       monitor: { className: "monitor", label: "" },
       speaker: { className: "speaker", label: "音箱" },
-      power: { className: "power", label: "POWER" },
+      power: { className: "power", label: "電力" },
       di: { className: "di", label: "DI" },
     };
 
@@ -1793,7 +1800,7 @@
       return [...performerRows.children].map((tr) => ({
         stageItemId: tr.dataset.stageItemId || "",
         name: getFieldValue(tr, 'textarea[aria-label$="演出者／樂器"]'),
-        output: getFieldValue(tr, 'input[aria-label$="輸出方法"]'),
+        output: getFieldValue(tr, 'input[aria-label$="訊號來源"]'),
         gear: getFieldValue(tr, 'textarea[aria-label$="自帶設備"]'),
         monitorMethod: getFieldValue(tr, 'input[aria-label$="監聽方式"]'),
         monitorContent: getFieldValue(tr, 'textarea[aria-label$="監聽內容"]'),
@@ -1824,7 +1831,7 @@
         const row = safeRows[index] || {};
         if (row.stageItemId) tr.dataset.stageItemId = row.stageItemId;
         setFieldValue(tr.querySelector('textarea[aria-label$="演出者／樂器"]'), row.name);
-        setFieldValue(tr.querySelector('input[aria-label$="輸出方法"]'), row.output, { silent: true });
+        setFieldValue(tr.querySelector('input[aria-label$="訊號來源"]'), row.output, { silent: true });
         setFieldValue(tr.querySelector('textarea[aria-label$="自帶設備"]'), row.gear);
         setFieldValue(tr.querySelector('input[aria-label$="監聽方式"]'), row.monitorMethod, { silent: true });
         setFieldValue(tr.querySelector('textarea[aria-label$="監聽內容"]'), row.monitorContent ?? row.monitor);
@@ -2299,8 +2306,8 @@
 
     const songRows = document.getElementById("songRows");
     const performerRows = document.getElementById("performerRows");
-    const maxSongRows = 10;
-    const maxPerformerRows = 10;
+    const maxSongRows = 15;
+    const maxPerformerRows = 15;
     let draggedRow = null;
     let draggedTbody = null;
 
@@ -2441,7 +2448,7 @@
       addRowActions(note, tr, performerRows);
       tr.append(
         first,
-        selectCell(`第 ${i} 位輸出方法`, outputOptions),
+        selectCell(`第 ${i} 位訊號來源`, outputOptions),
         gear,
         monitorMethod,
         monitorContent,
