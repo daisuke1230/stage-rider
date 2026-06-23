@@ -147,12 +147,12 @@
       position: relative;
     }
 
-    .date-field input[aria-label="日期"] {
+    .date-field input[data-field="date"] {
       width: 29mm;
     }
 
-    .top input[aria-label="聯絡人"],
-    .top input[aria-label="出場順序"] {
+    .top input[data-field="contact"],
+    .top input[data-field="order"] {
       min-width: 0;
     }
 
@@ -253,8 +253,7 @@
     }
 
     input,
-    textarea,
-    select {
+    textarea {
       width: 100%;
       border: 0;
       outline: 0;
@@ -590,7 +589,6 @@
     }
 
     td input,
-    td select,
     td textarea {
       padding: 2px 4px;
       text-align: center;
@@ -601,12 +599,6 @@
     td textarea::placeholder {
       font-size: 10px;
       line-height: 1.05;
-    }
-
-    select {
-      appearance: auto;
-      -webkit-appearance: menulist;
-      padding-right: 2px;
     }
 
     textarea {
@@ -736,39 +728,6 @@
       width: auto;
     }
 
-    .checkbox-cell {
-      text-align: center;
-    }
-
-    .checkbox-cell input {
-      width: 14px;
-      height: 14px;
-      display: inline-grid;
-      place-content: center;
-      border: 1px solid #777;
-      border-radius: 2px;
-      background: #fff;
-      appearance: none;
-      -webkit-appearance: none;
-      accent-color: #111;
-    }
-
-    .checkbox-cell input::before {
-      content: "✓";
-      width: auto;
-      height: auto;
-      background: transparent;
-      color: #111;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1;
-      transform: scale(0);
-    }
-
-    .checkbox-cell input:checked::before {
-      transform: scale(1);
-    }
-
     .combo-cell {
       position: relative;
       overflow: visible;
@@ -827,30 +786,6 @@
     .combo-option:hover,
     .combo-option:focus {
       background: #eee;
-    }
-
-    input:disabled {
-      color: #777;
-      background:
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 4px,
-          #f2f2f2 4px,
-          #f2f2f2 8px
-        );
-    }
-
-    textarea:disabled {
-      color: #777;
-      background:
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 4px,
-          #f2f2f2 4px,
-          #f2f2f2 8px
-        );
     }
 
     .total-row td {
@@ -928,14 +863,6 @@
 
     body.printing-layout.print-single .remarks textarea {
       height: 20mm;
-    }
-
-    body.printing-layout select {
-      appearance: none;
-      -webkit-appearance: none;
-      background: transparent !important;
-      color: #000;
-      padding-right: 4px;
     }
 
     .print-line-value {
@@ -1042,27 +969,10 @@
       }
 
       input,
-      textarea,
-      select {
+      textarea {
         color: #000;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
-      }
-
-      select {
-        appearance: none !important;
-        -webkit-appearance: none !important;
-        background: transparent !important;
-        background-image: none !important;
-        border: 0 !important;
-        color: #000 !important;
-        padding-right: 4px !important;
-      }
-
-      input:disabled,
-      textarea:disabled {
-        background: transparent !important;
-        color: #000;
       }
 
       .stage-item.selected,
@@ -1088,11 +998,11 @@
 
   <main class="page">
     <header class="top">
-      <div class="line-field date-field"><span>日期：</span><input type="text" aria-label="日期" inputmode="numeric"><button class="calendar-button" type="button" aria-label="開啟日期選單">▾</button><div class="calendar-popover" aria-label="日期選單"></div></div>
-      <label class="line-field">表演者：<input type="text" aria-label="表演者"></label>
-      <label class="line-field">出場順序：<input type="text" aria-label="出場順序"></label>
-      <label class="line-field">聯絡人：<input type="text" aria-label="聯絡人"></label>
-      <label class="line-field contact-method-field">聯絡方式：<input type="text" aria-label="聯絡方式"></label>
+      <div class="line-field date-field"><span>日期：</span><input type="text" aria-label="日期" data-field="date" inputmode="numeric"><button class="calendar-button" type="button" aria-label="開啟日期選單">▾</button><div class="calendar-popover" aria-label="日期選單"></div></div>
+      <label class="line-field">表演者：<input type="text" aria-label="表演者" data-field="performerName"></label>
+      <label class="line-field">出場順序：<input type="text" aria-label="出場順序" data-field="order"></label>
+      <label class="line-field">聯絡人：<input type="text" aria-label="聯絡人" data-field="contact"></label>
+      <label class="line-field contact-method-field">聯絡方式：<input type="text" aria-label="聯絡方式" data-field="contactMethod"></label>
     </header>
 
     <section>
@@ -1172,7 +1082,7 @@
 
     <section class="remarks">
       <div class="title-bar">備註</div>
-      <textarea aria-label="自由備註"></textarea>
+      <textarea aria-label="自由備註" data-field="remarks"></textarea>
     </section>
   </main>
 
@@ -1190,10 +1100,11 @@
       });
     }
 
-    function textCell(label, placeholder = "") {
+    function textCell(label, placeholder = "", fieldName = "") {
       const td = document.createElement("td");
       const textarea = document.createElement("textarea");
       textarea.setAttribute("aria-label", label);
+      if (fieldName) textarea.dataset.field = fieldName;
       if (placeholder) setOneShotPlaceholder(textarea, placeholder);
       textarea.addEventListener("input", () => {
         autoGrow(textarea);
@@ -1203,10 +1114,11 @@
       return td;
     }
 
-    function textareaCell(label, placeholder = "") {
+    function textareaCell(label, placeholder = "", fieldName = "") {
       const td = document.createElement("td");
       const textarea = document.createElement("textarea");
       textarea.setAttribute("aria-label", label);
+      if (fieldName) textarea.dataset.field = fieldName;
       if (placeholder) setOneShotPlaceholder(textarea, placeholder);
       textarea.addEventListener("input", () => {
         autoGrow(textarea);
@@ -1234,12 +1146,13 @@
       return td;
     }
 
-    function performerNameCell(label, onInput) {
+    function performerNameCell(label, onInput, fieldName = "") {
       const td = document.createElement("td");
       const wrapper = document.createElement("div");
       const textarea = document.createElement("textarea");
       wrapper.className = "performer-entry";
       textarea.setAttribute("aria-label", label);
+      if (fieldName) textarea.dataset.field = fieldName;
       textarea.addEventListener("input", () => {
         autoGrow(textarea);
         onInput?.(textarea);
@@ -1267,6 +1180,7 @@
       minutes.inputMode = "numeric";
       minutes.pattern = "[0-9]*";
       minutes.className = "time-min";
+      minutes.dataset.field = "songMinutes";
       minutes.setAttribute("aria-label", `${label} 分鐘`);
 
       seconds.type = "text";
@@ -1275,6 +1189,7 @@
       seconds.inputMode = "numeric";
       seconds.pattern = "[0-9]*";
       seconds.className = "time-sec";
+      seconds.dataset.field = "songSeconds";
       seconds.setAttribute("aria-label", `${label} 秒數`);
 
       [minutes, seconds].forEach((input) => {
@@ -1290,32 +1205,7 @@
       return td;
     }
 
-    function checkboxCell(label) {
-      const td = document.createElement("td");
-      td.className = "checkbox-cell";
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.setAttribute("aria-label", label);
-      td.appendChild(checkbox);
-      return { td, checkbox };
-    }
-
-    function nativeSelectCell(label, options) {
-      const td = document.createElement("td");
-      const select = document.createElement("select");
-      select.setAttribute("aria-label", label);
-      options.forEach((value) => {
-        const option = document.createElement("option");
-        option.value = value;
-        option.textContent = value;
-        select.appendChild(option);
-      });
-      select.addEventListener("change", resizeRemarks);
-      td.appendChild(select);
-      return td;
-    }
-
-    function selectCell(label, options) {
+    function selectCell(label, options, fieldName = "") {
       const td = document.createElement("td");
       const wrapper = document.createElement("div");
       const input = document.createElement("input");
@@ -1325,6 +1215,7 @@
       wrapper.className = "combo-wrap";
       input.setAttribute("aria-label", label);
       input.setAttribute("autocomplete", "off");
+      if (fieldName) input.dataset.field = fieldName;
       toggle.type = "button";
       toggle.className = "combo-toggle";
       toggle.textContent = "▾";
@@ -1415,11 +1306,11 @@
     }
 
     function setContinuationPrintFields() {
-      document.querySelector("[data-print-date]").textContent = document.querySelector('input[aria-label="日期"]').value.trim();
-      document.querySelector("[data-print-band]").textContent = document.querySelector('input[aria-label="表演者"]').value.trim();
-      document.querySelector("[data-print-contact]").textContent = document.querySelector('input[aria-label="聯絡人"]').value.trim();
-      document.querySelector("[data-print-contact-method]").textContent = document.querySelector('input[aria-label="聯絡方式"]').value.trim();
-      document.querySelector("[data-print-order]").textContent = document.querySelector('input[aria-label="出場順序"]').value.trim();
+      document.querySelector("[data-print-date]").textContent = getFieldValue(document, "date").trim();
+      document.querySelector("[data-print-band]").textContent = getFieldValue(document, "performerName").trim();
+      document.querySelector("[data-print-contact]").textContent = getFieldValue(document, "contact").trim();
+      document.querySelector("[data-print-contact-method]").textContent = getFieldValue(document, "contactMethod").trim();
+      document.querySelector("[data-print-order]").textContent = getFieldValue(document, "order").trim();
     }
 
     function a4HeightPx() {
@@ -1450,7 +1341,8 @@
     }
 
     const stage = document.querySelector(".stage-box");
-    const stageStorageKey = "stage-form-items-v1";
+    const legacyStageStorageKey = "stage-form-items-v1";
+    const stageStorageKey = "stage-rider-stage-items-v1";
     const undoStageLayoutButton = document.getElementById("undoStageLayout");
     const stageUndoStack = [];
     const maxStageUndoSteps = 60;
@@ -1493,16 +1385,6 @@
 
     function stageSnapshot() {
       return readStageItems();
-    }
-
-    function pushStageUndo(snapshot = stageSnapshot()) {
-      if (isRestoringStage) return;
-      const serialized = JSON.stringify(snapshot);
-      if (serialized === JSON.stringify(stageSnapshot())) return;
-      if (stageUndoStack[stageUndoStack.length - 1] === serialized) return;
-      stageUndoStack.push(serialized);
-      if (stageUndoStack.length > maxStageUndoSteps) stageUndoStack.shift();
-      updateStageUndoButton();
     }
 
     function pushCurrentStageUndo() {
@@ -1774,8 +1656,12 @@
       if (field.tagName === "TEXTAREA") autoGrow(field);
     }
 
-    function getFieldValue(scope, selector) {
-      return scope.querySelector(selector)?.value ?? "";
+    function findField(scope, fieldName) {
+      return scope.querySelector(`[data-field="${fieldName}"]`);
+    }
+
+    function getFieldValue(scope, fieldName) {
+      return findField(scope, fieldName)?.value ?? "";
     }
 
     function setRows(tbody, count, addRow) {
@@ -1787,24 +1673,24 @@
 
     function readSongRows() {
       return [...songRows.children].map((tr) => ({
-        title: getFieldValue(tr, 'textarea[aria-label$="曲名"]'),
-        minutes: getFieldValue(tr, ".time-min"),
-        seconds: getFieldValue(tr, ".time-sec"),
-        light: getFieldValue(tr, 'textarea[aria-label$="燈光需求"]'),
-        sound: getFieldValue(tr, 'textarea[aria-label$="音響需求"]'),
-        note: getFieldValue(tr, 'textarea[aria-label$="備註"]'),
+        title: getFieldValue(tr, "songTitle"),
+        minutes: getFieldValue(tr, "songMinutes"),
+        seconds: getFieldValue(tr, "songSeconds"),
+        light: getFieldValue(tr, "songLight"),
+        sound: getFieldValue(tr, "songSound"),
+        note: getFieldValue(tr, "songNote"),
       }));
     }
 
     function readPerformerRows() {
       return [...performerRows.children].map((tr) => ({
         stageItemId: tr.dataset.stageItemId || "",
-        name: getFieldValue(tr, 'textarea[aria-label$="演出者／樂器"]'),
-        output: getFieldValue(tr, 'input[aria-label$="訊號來源"]'),
-        gear: getFieldValue(tr, 'textarea[aria-label$="自帶設備"]'),
-        monitorMethod: getFieldValue(tr, 'input[aria-label$="監聽方式"]'),
-        monitorContent: getFieldValue(tr, 'textarea[aria-label$="監聽內容"]'),
-        note: getFieldValue(tr, 'textarea[aria-label$="演出者備註"]'),
+        name: getFieldValue(tr, "performerName"),
+        output: getFieldValue(tr, "signalSource"),
+        gear: getFieldValue(tr, "gear"),
+        monitorMethod: getFieldValue(tr, "monitorMethod"),
+        monitorContent: getFieldValue(tr, "monitorContent"),
+        note: getFieldValue(tr, "performerNote"),
       }));
     }
 
@@ -1813,12 +1699,12 @@
       setRows(songRows, safeRows.length, addSongRow);
       [...songRows.children].forEach((tr, index) => {
         const row = safeRows[index] || {};
-        setFieldValue(tr.querySelector('textarea[aria-label$="曲名"]'), row.title);
-        setFieldValue(tr.querySelector(".time-min"), row.minutes);
-        setFieldValue(tr.querySelector(".time-sec"), row.seconds);
-        setFieldValue(tr.querySelector('textarea[aria-label$="燈光需求"]'), row.light);
-        setFieldValue(tr.querySelector('textarea[aria-label$="音響需求"]'), row.sound);
-        setFieldValue(tr.querySelector('textarea[aria-label$="備註"]'), row.note);
+        setFieldValue(findField(tr, "songTitle"), row.title);
+        setFieldValue(findField(tr, "songMinutes"), row.minutes);
+        setFieldValue(findField(tr, "songSeconds"), row.seconds);
+        setFieldValue(findField(tr, "songLight"), row.light);
+        setFieldValue(findField(tr, "songSound"), row.sound);
+        setFieldValue(findField(tr, "songNote"), row.note);
       });
       renumberRows(songRows);
       updateTotalTime();
@@ -1830,12 +1716,12 @@
       [...performerRows.children].forEach((tr, index) => {
         const row = safeRows[index] || {};
         if (row.stageItemId) tr.dataset.stageItemId = row.stageItemId;
-        setFieldValue(tr.querySelector('textarea[aria-label$="演出者／樂器"]'), row.name);
-        setFieldValue(tr.querySelector('input[aria-label$="訊號來源"]'), row.output, { silent: true });
-        setFieldValue(tr.querySelector('textarea[aria-label$="自帶設備"]'), row.gear);
-        setFieldValue(tr.querySelector('input[aria-label$="監聽方式"]'), row.monitorMethod, { silent: true });
-        setFieldValue(tr.querySelector('textarea[aria-label$="監聽內容"]'), row.monitorContent ?? row.monitor);
-        setFieldValue(tr.querySelector('textarea[aria-label$="演出者備註"]'), row.note);
+        setFieldValue(findField(tr, "performerName"), row.name);
+        setFieldValue(findField(tr, "signalSource"), row.output ?? row.signalSource, { silent: true });
+        setFieldValue(findField(tr, "gear"), row.gear);
+        setFieldValue(findField(tr, "monitorMethod"), row.monitorMethod, { silent: true });
+        setFieldValue(findField(tr, "monitorContent"), row.monitorContent ?? row.monitor);
+        setFieldValue(findField(tr, "performerNote"), row.note);
       });
       renumberRows(performerRows);
     }
@@ -1845,12 +1731,12 @@
         version: 3,
         exportedAt: new Date().toISOString(),
         fields: {
-          date: document.querySelector('input[aria-label="日期"]').value.trim(),
-          bandName: document.querySelector('input[aria-label="表演者"]').value.trim(),
-          contact: document.querySelector('input[aria-label="聯絡人"]').value.trim(),
-          contactMethod: document.querySelector('input[aria-label="聯絡方式"]').value.trim(),
-          order: document.querySelector('input[aria-label="出場順序"]').value.trim(),
-          remarks: document.querySelector('textarea[aria-label="自由備註"]').value,
+          date: getFieldValue(document, "date").trim(),
+          bandName: getFieldValue(document, "performerName").trim(),
+          contact: getFieldValue(document, "contact").trim(),
+          contactMethod: getFieldValue(document, "contactMethod").trim(),
+          order: getFieldValue(document, "order").trim(),
+          remarks: getFieldValue(document, "remarks"),
         },
         stageItems: readStageItems(),
         songs: readSongRows(),
@@ -1865,12 +1751,12 @@
         return;
       }
       const fields = preset.fields || preset;
-      setFieldValue(document.querySelector('input[aria-label="日期"]'), fields.date);
-      setFieldValue(document.querySelector('input[aria-label="表演者"]'), fields.bandName);
-      setFieldValue(document.querySelector('input[aria-label="聯絡人"]'), fields.contact);
-      setFieldValue(document.querySelector('input[aria-label="聯絡方式"]'), fields.contactMethod);
-      setFieldValue(document.querySelector('input[aria-label="出場順序"]'), fields.order);
-      setFieldValue(document.querySelector('textarea[aria-label="自由備註"]'), fields.remarks);
+      setFieldValue(findField(document, "date"), fields.date);
+      setFieldValue(findField(document, "performerName"), fields.bandName ?? fields.performerName);
+      setFieldValue(findField(document, "contact"), fields.contact);
+      setFieldValue(findField(document, "contactMethod"), fields.contactMethod);
+      setFieldValue(findField(document, "order"), fields.order);
+      setFieldValue(findField(document, "remarks"), fields.remarks);
       performerRows.querySelectorAll("tr").forEach((tr) => delete tr.dataset.stageItemId);
       replaceStageItems(preset.stageItems || preset.items || []);
       applyPerformerRows(preset.performers);
@@ -1894,11 +1780,12 @@
     function clearFullForm() {
       if (!window.confirm("確定要清除整張表嗎？這個動作無法復原。")) return;
       document.querySelectorAll(".top input").forEach((input) => setFieldValue(input, ""));
-      setFieldValue(document.querySelector('textarea[aria-label="自由備註"]'), "");
+      setFieldValue(findField(document, "remarks"), "");
       replaceStageItems([]);
       resetTableRows(songRows, addSongRow, 5);
       resetTableRows(performerRows, addPerformerRow, 5);
       localStorage.removeItem(stageStorageKey);
+      localStorage.removeItem(legacyStageStorageKey);
       clearStageUndo();
       updateTotalTime();
       updateDocumentTitle();
@@ -1925,12 +1812,14 @@
     }
 
     function loadStageItems() {
-      const raw = localStorage.getItem(stageStorageKey);
+      const raw = localStorage.getItem(stageStorageKey) || localStorage.getItem(legacyStageStorageKey);
       if (!raw) return;
       try {
         JSON.parse(raw).forEach((item) => addStageItem(item.type, item));
+        localStorage.removeItem(legacyStageStorageKey);
       } catch {
         localStorage.removeItem(stageStorageKey);
+        localStorage.removeItem(legacyStageStorageKey);
       }
       clearStageSelection();
     }
@@ -1957,7 +1846,7 @@
     }
 
     function fileDatePart() {
-      const raw = document.querySelector('input[aria-label="日期"]').value.trim();
+      const raw = getFieldValue(document, "date").trim();
       const digits = raw.replace(/\D/g, "");
       if (digits.length >= 8) return digits.slice(0, 8);
       return safeFilePart(raw, todayString());
@@ -1965,13 +1854,13 @@
 
     function presetFileName() {
       const date = fileDatePart();
-      const band = safeFilePart(document.querySelector('input[aria-label="表演者"]').value, "表演者");
+      const band = safeFilePart(getFieldValue(document, "performerName"), "表演者");
       return `${date}_${band}_preset.json`;
     }
 
     function stageRequestFileName() {
       const date = fileDatePart();
-      const band = safeFilePart(document.querySelector('input[aria-label="表演者"]').value, "表演者");
+      const band = safeFilePart(getFieldValue(document, "performerName"), "表演者");
       return `${date}_${band}_舞台需求`;
     }
 
@@ -1984,7 +1873,7 @@
       return digits.length >= 8 ? digits.slice(0, 8) : value;
     }
 
-    const dateTextInput = document.querySelector('input[aria-label="日期"]');
+    const dateTextInput = findField(document, "date");
     const calendarButton = document.querySelector(".calendar-button");
     const dateField = document.querySelector(".date-field");
     const calendarPopover = document.querySelector(".calendar-popover");
@@ -2101,7 +1990,7 @@
       window.print();
     }
 
-    document.querySelectorAll('input[aria-label="日期"], input[aria-label="表演者"]').forEach((input) => {
+    [findField(document, "date"), findField(document, "performerName")].forEach((input) => {
       input.addEventListener("input", updateDocumentTitle);
       input.addEventListener("change", updateDocumentTitle);
     });
@@ -2424,10 +2313,17 @@
       const i = songRows.children.length + 1;
       const tr = document.createElement("tr");
       const no = makeRowNumberCell(i);
-      const note = textareaCell(`第 ${i} 首備註`);
+      const note = textareaCell(`第 ${i} 首備註`, "", "songNote");
       const lightHint = i === 1 ? "例：亮、暗、閃爍、色系、指定時間" : "";
       addRowActions(note, tr, songRows);
-      tr.append(no, textCell(`第 ${i} 首曲名`), timeCell(`第 ${i} 首時間`), textareaCell(`第 ${i} 首燈光需求`, lightHint), textareaCell(`第 ${i} 首音響需求`), note);
+      tr.append(
+        no,
+        textCell(`第 ${i} 首曲名`, "", "songTitle"),
+        timeCell(`第 ${i} 首時間`),
+        textareaCell(`第 ${i} 首燈光需求`, lightHint, "songLight"),
+        textareaCell(`第 ${i} 首音響需求`, "", "songSound"),
+        note
+      );
       songRows.appendChild(tr);
       updateRowButtons();
     }
@@ -2440,15 +2336,15 @@
       const tr = document.createElement("tr");
       const first = performerNameCell(`第 ${i} 位演出者／樂器`, (textarea) => {
         updateAutoPerformerStageItem(tr, textarea.value);
-      });
-      const gear = textCell(`第 ${i} 位自帶設備`, i === 1 ? "例：效果器、筆電、手機" : "");
-      const monitorMethod = selectCell(`第 ${i} 位監聽方式`, monitorMethodOptions);
-      const monitorContent = textareaCell(`第 ${i} 位監聽內容`, i === 1 ? "例：人聲大、伴奏、全部" : "");
-      const note = textareaCell(`第 ${i} 位演出者備註`);
+      }, "performerName");
+      const gear = textCell(`第 ${i} 位自帶設備`, i === 1 ? "例：效果器、筆電、手機" : "", "gear");
+      const monitorMethod = selectCell(`第 ${i} 位監聽方式`, monitorMethodOptions, "monitorMethod");
+      const monitorContent = textareaCell(`第 ${i} 位監聽內容`, i === 1 ? "例：人聲大、伴奏、全部" : "", "monitorContent");
+      const note = textareaCell(`第 ${i} 位演出者備註`, "", "performerNote");
       addRowActions(note, tr, performerRows);
       tr.append(
         first,
-        selectCell(`第 ${i} 位訊號來源`, outputOptions),
+        selectCell(`第 ${i} 位訊號來源`, outputOptions, "signalSource"),
         gear,
         monitorMethod,
         monitorContent,
